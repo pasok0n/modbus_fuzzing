@@ -58,7 +58,12 @@ ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 \
 
 RUN mkdir $WORKDIR
 
-RUN cd $WORKDIR && git clone --recurse-submodules https://github.com/rtlabs-com/m-bus.git
+COPY --chown=ubuntu:ubuntu mypatch.patch ${WORKDIR}/mbus.patch
+
+RUN cd $WORKDIR && git clone --recurse-submodules https://github.com/rtlabs-com/m-bus.git && \
+    cd m-bus && patch -p1 < $WORKDIR/mbus.patch && \
+    cmake -B build && \
+    cmake --build build --target all check
 
 COPY --chown=ubuntu:ubuntu mbus.pcapng ${WORKDIR}/mbus.pcapng
 COPY --chown=ubuntu:ubuntu modbus_requests ${WORKDIR}/in-modbustcp/modbus_requests

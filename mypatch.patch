@@ -1,0 +1,12 @@
+diff --git a/sample/tcp_slave.c b/sample/tcp_slave.c
+index 18197c5..425706a 100644
+--- a/sample/tcp_slave.c
++++ b/sample/tcp_slave.c
+@@ -35,6 +35,6 @@ int main (void)
+    mb_slave_t * s;
+ 
+    s = mb_tcp_start();
+-   os_usleep (20 * 1000 * 1000);
++   os_usleep (2000 * 1000 * 1000);
+    mb_slave_shutdown (s);
+ }
