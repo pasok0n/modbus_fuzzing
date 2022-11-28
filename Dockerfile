@@ -56,8 +56,6 @@ RUN git clone https://github.com/stateafl/stateafl.git $STATEAFL && \
 ENV AFL_PATH=${STATEAFL}
 ENV PATH=${STATEAFL}:${PATH}
 
-RUN mkdir 
-
 ENV WORKDIR="/home/ubuntu/experiments"
 RUN mkdir $WORKDIR
 
