@@ -33,9 +33,28 @@ RUN chmod 777 /tmp
 
 RUN pip3 install gcovr==4.2
 
+
+
 # Use ubuntu as default username
 USER ubuntu
 WORKDIR /home/ubuntu
+
+# Import environment variable to pass as parameter to make (e.g., to make parallel builds with -j)
+ARG MAKE_OPT
+
+# Set up StateAFL
+ENV STATEAFL="/home/ubuntu/stateafl"
+ENV STATEAFL_CFLAGS="-DBLACKLIST_ALLOC_SITES"
+
+RUN git clone https://github.com/stateafl/stateafl.git $STATEAFL && \
+    cd $STATEAFL && \
+    make clean all $MAKE_OPT && \
+    rm as && \
+    cd llvm_mode && CFLAGS="${STATEAFL_CFLAGS}" make $MAKE_OPT
+
+# Set up environment variables for StateAFL
+ENV AFL_PATH=${STATEAFL}
+ENV PATH=${STATEAFL}:${PATH}
 
 ENV WORKDIR="/home/ubuntu/experiments"
 
