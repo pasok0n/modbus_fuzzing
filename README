@@ -1,0 +1,1 @@
+afl-fuzz -d -i in-modbustcp/ -o out -N tcp://127.0.0.1/8502 -P MODBUSTCP -D 10000 -q 3 -s 3 -E -R -K ./m-bus/build/mb_tcp_slave
