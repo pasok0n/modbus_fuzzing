@@ -42,23 +42,23 @@ WORKDIR /home/ubuntu
 # Import environment variable to pass as parameter to make (e.g., to make parallel builds with -j)
 ARG MAKE_OPT
 
-# Set up StateAFL
-ENV STATEAFL="/home/ubuntu/stateafl"
-ENV STATEAFL_CFLAGS="-DBLACKLIST_ALLOC_SITES"
-
-RUN git clone https://github.com/stateafl/stateafl.git $STATEAFL && \
-    cd $STATEAFL && \
+RUN git clonehttps://github.com/M3m3M4n/aflnet.git --branch modbus-remote && \
+    cd aflnet && \
     make clean all $MAKE_OPT && \
-    rm as && \
-    cd llvm_mode && CFLAGS="${STATEAFL_CFLAGS}" make $MAKE_OPT
+    cd llvm_mode && make $MAKE_OPT
 
-# Set up environment variables for StateAFL
-ENV AFL_PATH=${STATEAFL}
-ENV PATH=${STATEAFL}:${PATH}
-
+# Set up environment variables for AFLNet
 ENV WORKDIR="/home/ubuntu/experiments"
+ENV AFLNET="/home/ubuntu/aflnet"
+ENV PATH="${PATH}:${AFLNET}:/home/ubuntu/.local/bin:${WORKDIR}"
+ENV AFL_PATH="${AFLNET}"
+ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 \
+    AFL_SKIP_CPUFREQ=1 \
+    AFL_NO_AFFINITY=1
+
 RUN mkdir $WORKDIR
 
 RUN cd $WORKDIR && git clone --recurse-submodules https://github.com/rtlabs-com/m-bus.git
 
 COPY --chown=ubuntu:ubuntu mbus.pcapng ${WORKDIR}/mbus.pcapng
+COPY --chown=ubuntu:ubuntu modbus_requests ${WORKDIR}/in-modbustcp/modbus_requests
