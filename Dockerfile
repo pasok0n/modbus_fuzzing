@@ -23,7 +23,8 @@ RUN apt-get -y update && \
     strace \
     wget \
     libcap-dev \
-    cmake
+    cmake \
+    tshark
 
 # Add a new user ubuntu, pass: ubuntu
 RUN groupadd ubuntu && \
@@ -31,8 +32,7 @@ RUN groupadd ubuntu && \
 
 RUN chmod 777 /tmp
 
-RUN pip3 install gcovr==4.2
-
+RUN pip3 install gcovr==4.2 pyshark
 
 
 # Use ubuntu as default username
@@ -60,3 +60,5 @@ ENV WORKDIR="/home/ubuntu/experiments"
 RUN mkdir $WORKDIR
 
 RUN cd $WORKDIR && git clone --recurse-submodules https://github.com/rtlabs-com/m-bus.git
+
+COPY --chown=ubuntu:ubuntu mbus.pcapng ${WORKDIR}/mbus.pcapng
