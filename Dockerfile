@@ -42,7 +42,7 @@ WORKDIR /home/ubuntu
 # Import environment variable to pass as parameter to make (e.g., to make parallel builds with -j)
 ARG MAKE_OPT
 
-RUN git clonehttps://github.com/M3m3M4n/aflnet.git --branch modbus-remote && \
+RUN git clone https://github.com/M3m3M4n/aflnet.git --branch modbus-remote && \
     cd aflnet && \
     make clean all $MAKE_OPT && \
     cd llvm_mode && make $MAKE_OPT
