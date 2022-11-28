@@ -56,6 +56,9 @@ RUN git clone https://github.com/stateafl/stateafl.git $STATEAFL && \
 ENV AFL_PATH=${STATEAFL}
 ENV PATH=${STATEAFL}:${PATH}
 
+RUN mkdir 
+
 ENV WORKDIR="/home/ubuntu/experiments"
+RUN mkdir $WORKDIR
 
 RUN cd $WORKDIR && git clone --recurse-submodules https://github.com/rtlabs-com/m-bus.git
