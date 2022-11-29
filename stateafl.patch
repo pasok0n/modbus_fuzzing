@@ -1,0 +1,25 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8931e2e..37a36ec 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,6 +16,8 @@
+ cmake_minimum_required (VERSION 3.14)
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/tools")
++SET(CMAKE_C_COMPILER /home/ubuntu/stateafl/afl-clang-fast)
++SET(CMAKE_CXX_COMPILER /home/ubuntu/stateafl/afl-clang-fast++)
+ project (MBUS VERSION 0.1.0)
+ 
+ # Default settings if this is the main project
+diff --git a/sample/tcp_slave.c b/sample/tcp_slave.c
+index 18197c5..425706a 100644
+--- a/sample/tcp_slave.c
++++ b/sample/tcp_slave.c
+@@ -35,6 +35,6 @@ int main (void)
+    mb_slave_t * s;
+ 
+    s = mb_tcp_start();
+-   os_usleep (20 * 1000 * 1000);
++   os_usleep (2000 * 1000 * 1000);
+    mb_slave_shutdown (s);
+ }

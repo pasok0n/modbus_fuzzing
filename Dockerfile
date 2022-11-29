@@ -22,9 +22,7 @@ RUN apt-get -y update && \
     netcat \
     strace \
     wget \
-    libcap-dev \
-    cmake \
-    tshark
+    libcap-dev
 
 # Add a new user ubuntu, pass: ubuntu
 RUN groupadd ubuntu && \
@@ -32,7 +30,7 @@ RUN groupadd ubuntu && \
 
 RUN chmod 777 /tmp
 
-RUN pip3 install gcovr==4.2 pyshark
+RUN pip3 install gcovr==4.2
 
 
 # Use ubuntu as default username
@@ -65,5 +63,4 @@ RUN cd $WORKDIR && git clone --recurse-submodules https://github.com/rtlabs-com/
     cmake -B build && \
     cmake --build build --target all check
 
-COPY --chown=ubuntu:ubuntu mbus.pcapng ${WORKDIR}/mbus.pcapng
-COPY --chown=ubuntu:ubuntu modbus_requests ${WORKDIR}/in-modbustcp/modbus_requests
+COPY --chown=ubuntu:ubuntu in-modbustcp/ ${WORKDIR}/in-modbustcp
